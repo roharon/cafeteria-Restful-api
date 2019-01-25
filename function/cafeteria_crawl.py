@@ -24,6 +24,9 @@ def seo_crawl(cafeteria, date):
         elif cafeteria == 'sky':
             req = requests.get(
                 'https://wis.hufs.ac.kr/jsp/HUFS/cafeteria/viewWeek.jsp?startDt=' + today_d + '&endDt=' + today_d + '&caf_name=스카이라운지&caf_id=h103')
+        else:
+            raise
+            # cafeteria 파라미터가 알맞지 않는 경우 오류 발생시킴.
     except:
         error = "\n서울캠 로딩. 학교 사이트 점검중!\n학식내용을 불러올 수 없습니다."
         return error
@@ -307,4 +310,4 @@ def glo_crawl(cafeteria, date):
 
 if __name__ == "__main__":
     #print(glo_crawl('후생관', 'today'))
-    print(seo_crawl('인문관', 'today'))
+    print(seo_crawl('inmoon', 'today'))
