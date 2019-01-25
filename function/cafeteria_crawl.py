@@ -132,7 +132,8 @@ def glo_crawl(cafeteria, date):
     end_d = today_d
 
     today_w = today.strftime("%w")
-    ###today_d = "20170615"
+
+    ## today_d = end_d = "20181211"
     try:
         if cafeteria == "후생관":
             req = requests.get(
@@ -187,9 +188,16 @@ def glo_crawl(cafeteria, date):
                     i = i.replace('\n', ' ').replace('&', '').replace('*', '').split()
                     cafe_menu.append(i)
 
-    menu = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
     menu_size = len(cafe_menu)
     count = -1
+
+    menu = \
+    {
+        "title": [],
+        "food": [],
+        "price": [],
+        "cal": []
+    }
 
     if cafeteria == "어문관":
         menu_size = len(cafe_menu) - 1
@@ -202,31 +210,30 @@ def glo_crawl(cafeteria, date):
 
             if what == (time_size - 1):
                 if cafeteria == "국제사회교육원":
-                    menu[count] = menu[count] + cafe_menu[size][what] + '\n'
+                    menu['menu'].append(list(cafe_menu[size][what]))
                 elif cafeteria == '어문관':
                     if size > 1:
                         try:
-                            menu[count] = menu[count] + cafe_menu[size][what] + '\n'
+                            menu['price'].append(cafe_menu[size][what])
                         except:
                             pass
                     else:
-                        menu[count] = menu[count] + '\n가격 : ' + cafe_menu[size][what]
-                        menu[count] = menu[count] + '\n\n선택식\n'
+                        menu['price'].append(cafe_menu[size][what])
                 else:
-                    menu[count] = menu[count] + '\n가격 : ' + cafe_menu[size][what]
+                    menu['price'].append(cafe_menu[size][what])
             elif what == 0:
                 if cafeteria == '어문관':
                     if '1430' in cafe_menu[size][what]:
                         continue
                     else:
                         if '일품' in cafe_menu[size][what]:
-                            menu[count] = menu[count] + cafe_menu[size][what] + '\n\n'
+                            menu['title'].append(cafe_menu[size][what])
                         else:
                             try:
                                 if '면' in cafe_menu[size][what]:
-                                    menu[count] = menu[count] + cafe_menu[size][what]
+                                    menu['title'].append(cafe_menu[size][what])
                                 else:
-                                    menu[count] = menu[count] + cafe_menu[size][what] + ' : '
+                                    menu[count].append(cafe_menu[size][what] + ' : ')
                             except:
                                 print("Umoon error-select.")
                                 break
@@ -263,18 +270,15 @@ def glo_crawl(cafeteria, date):
                     except:
                         print("haksik_pre 기숙사 식당 시간오류")
 
-                    menu[count] = menu[count] + cafe_menu[size][what] + '\n\n'
+                    menu['title'].append(cafe_menu[size][what])
 
             else:
                 if cafeteria is not '어문관':
                     try:
 
-                        menu[count] = menu[count] + cafe_menu[size][what] + '\n'
+                        menu['food'].append(cafe_menu[size][what])
                     except:
                         pass
-                for i in range(0, len(menu)):
-                    if '중식(특식)' in menu[i]:
-                        menu[i] = menu[i].replace('3,700', '7,400')
     if cafeteria == '어문관':
         umoon_temp = []
         umoon_select = ''
@@ -309,5 +313,5 @@ def glo_crawl(cafeteria, date):
 
 
 if __name__ == "__main__":
-    #print(glo_crawl('후생관', 'today'))
-    print(seo_crawl('inmoon', 'today'))
+    print(glo_crawl('후생관', 'today'))
+    #print(seo_crawl('inmoon', 'today'))
