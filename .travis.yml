@@ -9,3 +9,6 @@ install:
   
 script: 
   - python test.py
+  
+dist: xenial
+sudo: yes
