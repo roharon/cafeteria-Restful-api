@@ -264,6 +264,8 @@ def glo_crawl(cafeteria, date):
                                 if '등록된' in cafe_menu[size][what]:
                                     continue
                                 # 기숙사식당 스넥 등록된 메뉴 없을때 조치
+                            if ('(' or '+' or '/' or 'Kcal') in cafe_menu[size][what]:
+                                continue
                             menu['food'][-1].append(cafe_menu[size][what])
                     except:
                         pass
