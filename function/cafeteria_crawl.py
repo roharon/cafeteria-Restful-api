@@ -84,7 +84,8 @@ def seo_crawl(cafeteria, date):
         menu['food'].append([])
         for what in range(0, time_size):
             if what == 0:
-                menu['title'].append(cafe_menu[size][what])
+                menu['title'].append(cafe_menu[size][what][:-9])
+                menu['time'].append(cafe_menu[size][what][-9:])
 
             elif what == (time_size - 1):
                 menu['price'].append(cafe_menu[size][what])
@@ -246,24 +247,12 @@ def glo_crawl(cafeteria, date):
                                 break
                 else:
                     try:
-                        if cafeteria == 'hufsdorm':
-                            if days in ['토', '일']:
-                                if '0830~0900' in cafe_menu[size][what]:
-                                    cafe_menu[size][what] = cafe_menu[size][what].replace('0830~0900', '08:00~09:00')
-                                if '1730~1800' in cafe_menu[size][what]:
-                                    cafe_menu[size][what] = cafe_menu[size][what].replace('1730~1800', '17:30~18:30')
-                            else:
-                                if '0830~0900' in cafe_menu[size][what]:
-                                    cafe_menu[size][what] = cafe_menu[size][what].replace('0830~0900', '08:00~09:30')
-                                if '1730~1800' in cafe_menu[size][what]:
-                                    cafe_menu[size][what] = cafe_menu[size][what].replace('1730~1800', '17:30~19:00')
-                                if '1200~1300' in cafe_menu[size][what]:
-                                    cafe_menu[size][what] = cafe_menu[size][what].replace('1200~1300', '12:00~14:00')
-
+                        pass
                     except:
                         print("haksik_pre 기숙사 식당 시간오류")
                     if cafe_menu[size][what] not in ['상기', '※']:
-                        menu['title'].append(cafe_menu[size][what])
+                        menu['title'].append(cafe_menu[size][what][:-9])
+                        menu['time'].append(cafe_menu[size][what][-9:])
 
             else:
                 if cafeteria != 'umoon':
@@ -271,6 +260,10 @@ def glo_crawl(cafeteria, date):
                         if len(menu['title']) < len(menu['food']):
                             break
                         else:
+                            if cafeteria == 'hufsdorm':
+                                if '등록된' in cafe_menu[size][what]:
+                                    continue
+                                # 기숙사식당 스넥 등록된 메뉴 없을때 조치
                             menu['food'][-1].append(cafe_menu[size][what])
                     except:
                         pass
