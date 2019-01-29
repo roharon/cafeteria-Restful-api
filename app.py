@@ -1,6 +1,7 @@
 from flask import Flask
 import json
 from function.cafeteria_crawl import seo_crawl
+from function.cafeteria_crawl import glo_crawl
 
 app = Flask(__name__)
 
@@ -46,7 +47,11 @@ def main():
 
 @app.route('/cafe/<cafeteria>/<day>', methods=['GET'])
 def get_menu(cafeteria, day):
-    return json.dumps(seo_crawl(cafeteria, day), ensure_ascii=False)
+    if cafeteria in ['inmoon', 'sky', 'gyosoo']:
+        return json.dumps(seo_crawl(cafeteria, day), ensure_ascii=False)
+    else:
+        return json.dumps(glo_crawl(cafeteria, day), ensure_ascii=False)
+
 
 """
 cafeteria : inmoon, gyosoo, sky
