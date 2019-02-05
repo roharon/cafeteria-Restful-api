@@ -27,8 +27,9 @@ def seo_crawl(cafeteria, date):
         else:
             raise
             # cafeteria 파라미터가 알맞지 않는 경우 오류 발생시킴.
-    except:
+    except Exception as e:
         error = "\n서울캠 로딩. 학교 사이트 점검중!\n학식내용을 불러올 수 없습니다."
+        print(e)
         return error
 
     html = req.text
